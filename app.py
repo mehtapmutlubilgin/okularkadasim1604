@@ -16,7 +16,6 @@ if "GROQ_API_KEY" not in st.secrets:
 # --- 1. KAYITLI VEKTÖR DOSYASINI YÜKLEME ---
 @st.cache_resource
 def load_existing_vector_db():
-    # Klasör isminiz Colab'da neyse onu yazın (Örn: "okul_asistani_v2_db")
     persist_dir = "okul_asistani_v2_db" 
     
     if not os.path.exists(persist_dir):
@@ -25,20 +24,34 @@ def load_existing_vector_db():
     
     embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     
-    # Sıfırdan oluşturmak yerine 'persist_directory'den yüklüyoruz
     vector_db = Chroma(
         persist_directory=persist_dir,
         embedding_function=embeddings
     )
     return vector_db
 
-# --- 2. CEVAP ÜRETME ---
+# --- 2. CEVAP ÜRETME (COLAB MANTĞI İLE GÜNCELLENDİ) ---
 def ask_asistant(v_db, query):
     client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+    # Colab ile aynı şekilde k=5 bilgisini çekiyoruz
     docs = v_db.similarity_search(query, k=5)
     baglam = "\n\n".join([doc.page_content for doc in docs])
 
-    system_msg = "Sen MEB Mevzuat Asistanısın. Yanıtların KISA ve NET olmalı."
+    # COLAB'DAKİ TAM SİSTEM MESAJI
+    system_msg = """Sen MEB Mevzuat Asistanısın. Yanıtların ÇOK KISA (en fazla 2 cümle) ve NET olmalı.
+
+    ASLA DEĞİŞMEZ ANALİZ KURALLARI:
+    1. SORUMLULUK: Sorumluluk sınavı geçme puanı 50'dir. Sınavlar dönemlerin ilk iki haftasında yapılır.
+    2. MANTIK: 8 sayısı 10'dan küçüktür; 8 gün devamsızlıkla kalınmaz.
+    3. GÜNCEL: Devamsızlık artık başarı belgesi (Takdir/Teşekkür) almaya engel DEĞİLDİR.
+    4. RAPOR: Hastane raporları 'Özürlü' devamsızlıktır, 10 günlük özürsüz sınırını etkilemez.
+    5. SINIF GEÇME: Ortalaması 50 olsa bile 3 dersten fazla zayıfı (4, 5, 6...) olan öğrenci KALIR.
+    6. BELGE: Teşekkür 70-84.99, Takdir 85.00 ve üzeri ortalama gerektirir.
+    7. Sorumluluk sınavı geçme notu 50'dir.
+    8. Eğer öğrenci 50 ve üzerinde bir not almışsa (50, 60, 70, 80 vb.) KESİNLİKE GEÇMİŞTİR.
+    9. Bağlamda (CSV'de) çelişkili rakamlar görürsen (70 gibi), her zaman '50 ve üzeri geçer' kuralını uygula.
+
+    TALİMAT: Sadece sorunun cevabını ver. Gereksiz açıklama ve kuralları tekrar etme."""
 
     chat = client.chat.completions.create(
         messages=[
@@ -46,7 +59,7 @@ def ask_asistant(v_db, query):
             {"role": "user", "content": f"Bağlam: {baglam}\n\nSoru: {query}"}
         ],
         model="llama-3.1-8b-instant",
-        temperature=0
+        temperature=0 # Sıfır risk: Colab ile aynı
     )
     return chat.choices[0].message.content
 
