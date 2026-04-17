@@ -52,13 +52,13 @@ with col1:
 
 with col2:
     st.markdown("""<div class="card card-blue"><h3>⌛ Devamsızlık</h3><ul>
-    <li>• 10/30 gün kuralı nedir?</li><li>• Yarım gün izin devamsızlık sayılır mı?</li>
-    <li>• Toplam devamsızlık sınırı ne zaman 60 güne çıkar?</li></ul></div>""", unsafe_allow_html=True)
+    <li>• 10/30 gün kuralı nedir?</li><li>• Ortalamam 75 ve toplam 8 gün devamsızlığım var, belge alabilir miyim?</li>
+    <li>• 11 gün özürsüz devamsızlığım var, sınıfta kalır mıyım?</li></ul></div>""", unsafe_allow_html=True)
 
 with col3:
-    st.markdown("""<div class="card card-green"><h3>🎓 Başarı & Nakil</h3><ul>
-    <li>• Kaç zayıfla kalınır?</li><li>• Nakil dönemi ne zamandır?</li>
-    <li>• Onur Belgesi alma şartları nelerdir?</li></ul></div>""", unsafe_allow_html=True)
+    st.markdown("""<div class="card card-green"><h3>🎓 Başarı </h3><ul>
+    <li>• Kaç zayıfla kalınır?</li><li>• Yıl sonu başarı ortalamam 48, sınıfı geçebilir miyim?</li>
+    <li>• 86 puan ortalamam var, devamsızlığım olsa da Takdir alabilir miyim?</li></ul></div>""", unsafe_allow_html=True)
 
 st.markdown("---")
 
