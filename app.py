@@ -47,7 +47,7 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     st.markdown("""<div class="card card-red"><h3>📜 Kayıt & Disiplin</h3><ul>
-    <li>• Disiplin cezaları nelerdir?</li><li>• Kopya cezası nedir?</li>
+    <li>• Disiplin cezaları nelerdir?</li><li>•3 gün uzaklaştırma cezası alırsam bu durum dosyama işlenir mi?</li>
     <li>• "Kınama" cezası alan öğrencinin dosyasına işlenir mi?</li></ul></div>""", unsafe_allow_html=True)
 
 with col2:
@@ -57,7 +57,7 @@ with col2:
 
 with col3:
     st.markdown("""<div class="card card-green"><h3>🎓 Başarı </h3><ul>
-    <li>• Kaç zayıfla kalınır?</li><li>• Yıl sonu başarı ortalamam 48, sınıfı geçebilir miyim?</li>
+    <li>• Teşekkür belgesi alabilmek için ortalamamın kaç olması lazım?</li><li>• Yıl sonu başarı ortalamam 48, sınıfı geçebilir miyim?</li>
     <li>• 86 puan ortalamam var, devamsızlığım olsa da Takdir alabilir miyim?</li></ul></div>""", unsafe_allow_html=True)
 
 st.markdown("---")
