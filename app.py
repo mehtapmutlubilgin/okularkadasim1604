@@ -47,7 +47,7 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     st.markdown("""<div class="card card-red"><h3>📜 Kayıt & Disiplin</h3><ul>
-    <li>• Disiplin cezaları nelerdir?</li><li>•3 gün uzaklaştırma cezası alırsam bu durum dosyama işlenir mi?</li>
+    <li>• Disiplin cezaları nelerdir?</li><li>•Kayıt işlemleri nasıl yapılır?</li>
     <li>• "Kınama" cezası alan öğrencinin dosyasına işlenir mi?</li></ul></div>""", unsafe_allow_html=True)
 
 with col2:
