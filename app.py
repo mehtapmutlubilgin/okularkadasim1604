@@ -16,8 +16,6 @@ st.markdown("""
     <style>
     .main { background-color: #0e1117; }
     .stTitle { color: white; text-align: center; font-size: 3rem !important; margin-bottom: 20px; }
-    
-    /* Kart Stilleri */
     .card {
         background-color: #1a1c24;
         border-radius: 15px;
@@ -74,20 +72,20 @@ def load_existing_vector_db():
     embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     return Chroma(persist_directory=persist_dir, embedding_function=embeddings)
 
-# --- 2. CEVAP ÜRETME (COLAB MANTIĞI İLE BİREBİR AYNI) ---
+# --- 2. CEVAP ÜRETME ---
 def ask_asistant(v_db, query):
     client = Groq(api_key=st.secrets["GROQ_API_KEY"])
     docs = v_db.similarity_search(query, k=5)
     baglam = "\n\n".join([doc.page_content for doc in docs])
 
-    # Colab'daki tam sistem mesajı
+    # Colab'daki başarılı kural seti
     system_msg = """Sen MEB Mevzuat Asistanısın. Yanıtların ÇOK KISA (en fazla 2 cümle) ve NET olmalı.
     ASLA DEĞİŞMEZ ANALİZ KURALLARI:
-    1. SORUMLULUK: Sorumluluk sınavı geçme puanı 50'dir. Sınavlar dönemlerin ilk iki haftasında yapılır.
+    1. SORUMLULUK: Sorumluluk sınavı geçme puanı 50'dir.
     2. MANTIK: 8 sayısı 10'dan küçüktür; 8 gün devamsızlıkla kalınmaz.
     3. GÜNCEL: Devamsızlık artık başarı belgesi (Takdir/Teşekkür) almaya engel DEĞİLDİR.
-    4. RAPOR: Hastane raporları 'Özürlü' devamsızlıktır, 10 günlük özürsüz sınırını etkilemez.
-    5. SINIF GEÇME: Ortalaması 50 olsa bile 3 dersten fazla zayıfı (4, 5, 6...) olan öğrenci KALIR.
+    4. RAPOR: Hastane raporları 'Özürlü' devamsızlıktır.
+    5. SINIF GEÇME: Ortalaması 50 olsa bile 3 dersten fazla zayıfı olan öğrenci KALIR.
     6. BELGE: Teşekkür 70-84.99, Takdir 85.00 ve üzeri ortalama gerektirir.
     8. Eğer öğrenci 50 ve üzerinde bir not almışsa KESİNLİKE GEÇMİŞTİR.
     9. Bağlamda çelişkili rakamlar görürsen, her zaman '50 ve üzeri geçer' kuralını uygula.
@@ -97,7 +95,7 @@ def ask_asistant(v_db, query):
         messages=[{"role": "system", "content": system_msg},
                   {"role": "user", "content": f"Bağlam: {baglam}\n\nSoru: {query}"}],
         model="llama-3.1-8b-instant",
-        temperature=0 # Sıfır risk: Colab ile aynı
+        temperature=0
     )
     return chat.choices[0].message.content
 
@@ -105,4 +103,22 @@ def ask_asistant(v_db, query):
 v_db = load_existing_vector_db()
 
 if v_db:
-    if "messages
+    # Session state kontrolü ve mesajların saklanması
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+
+    # Eski mesajları ekrana bas
+    for msg in st.session_state.messages:
+        with st.chat_message(msg["role"]):
+            st.markdown(msg["content"])
+
+    # Yeni soru girişi
+    if prompt := st.chat_input("Yönetmelik hakkında bir soru sorun..."):
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        with st.chat_message("assistant"):
+            response = ask_asistant(v_db, prompt)
+            st.markdown(response)
+        st.session_state.messages.append({"role": "assistant", "content": response})
