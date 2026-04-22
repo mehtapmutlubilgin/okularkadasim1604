@@ -79,7 +79,7 @@ def ask_asistant(v_db, query):
     baglam = "\n\n".join([doc.page_content for doc in docs])
 
     # Colab'daki başarılı kural seti
-   system_msg = """Sen MEB Mevzuat Asistanısın. Yanıtların ÇOK KISA ve NET olmalı.
+    system_msg = """Sen MEB Mevzuat Asistanısın. Yanıtların ÇOK KISA ve NET olmalı.
 
     GÜVENLİK FİLTRESİ: 
     - Eğer kullanıcı anlamsız harfler (asdf, dujfgygh vb.) gönderirse veya sorusu MEB mevzuatıyla tamamen alakasızsa, sadece: "Lütfen MEB mevzuatı ile ilgili anlamlı bir soru sorunuz." yanıtını ver. 
