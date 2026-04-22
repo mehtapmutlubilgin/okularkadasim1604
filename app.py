@@ -34,7 +34,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # --- BAŞLIK ---
-st.markdown("<h1 class='stTitle'>🏛️ MEB Yönetmelik Asistanı</h1>", unsafe_allow_html=True)
+st.markdown("<h1 class='stTitle'>🏛️OKUL ARKADAŞIM</h1>", unsafe_allow_html=True)
 
 # --- SECRETS KONTROLÜ ---
 if "GROQ_API_KEY" not in st.secrets:
