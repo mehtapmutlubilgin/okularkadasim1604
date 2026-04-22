@@ -79,7 +79,7 @@ def ask_asistant(v_db, query):
     baglam = "\n\n".join([doc.page_content for doc in docs])
 
     # Colab'daki başarılı kural seti
-   system_msg = """Sen MEB Mevzuat Asistanısın. Yanıtların TEK BİR CEVAP şeklinde, ÇOK KISA ve NET olmalı. 
+    system_msg = """Sen MEB Mevzuat Asistanısın. Yanıtların TEK BİR CEVAP şeklinde, ÇOK KISA ve NET olmalı. 
 
     KESİN ANALİZ ADIMLARI:
     1. ÖZÜRLÜ (RAPORLU) DEVAMSIZLIK: 19 gün veya benzeri rakamlar 'Özürlü' ise KALMAZSIN. Toplam sınır 30 gündür.
