@@ -9,7 +9,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 
 # --- SAYFA AYARLARI ---
-st.set_page_config(page_title="MEB Yönetmelik Asistanı", page_icon="🏛️", layout="wide")
+st.set_page_config(page_title="OKUL ARKADAŞIM", page_icon="🏛️", layout="wide")
 
 # --- CUSTOM CSS (Görsel Tasarım İçin) ---
 st.markdown("""
