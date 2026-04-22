@@ -88,8 +88,7 @@ def ask_asistant(v_db, query):
     5. SINIF GEÇME: Ortalaması 50 olsa bile 3 dersten fazla zayıfı olan öğrenci KALIR.
     6. MATEMATİKSEL ONAY: Eğer ortalama 50 ve üzerindeyse (Örn: 52), söze "Evet geçebilirsin" diyerek başla ve "Ancak zayıf sayın 3'ten az olmalıdır" şartını hatırlat.
     7. BELGE: Teşekkür 70-84.99, Takdir 85.00 ve üzeri ortalama gerektirir.
-    8. Eğer öğrenci 50 ve üzerinde bir not almışsa KESİNLİKE GEÇMİŞTİR.
-    9. Bağlamda çelişkili rakamlar görürsen, her zaman '50 ve üzeri geçer' kuralını uygula.
+    8. Bağlamda çelişkili rakamlar görürsen, her zaman '50 ve üzeri geçer' kuralını uygula.
     TALİMAT: Sadece sorunun cevabını ver. Gereksiz açıklama yapma."""
 
     
