@@ -78,31 +78,28 @@ def ask_asistant(v_db, query):
     docs = v_db.similarity_search(query, k=3)
     baglam = "\n\n".join([doc.page_content for doc in docs])
 
-    system_msg = """Sen MEB Mevzuat Uzmanısın. Kullanıcının durumunu aşağıdaki KESİN hiyerarşiyle (yukarıdan aşağıya) analiz et.
+    system_msg = """Sen MEB Mevzuat Uzmanısın. Kullanıcının verdiği rakamları mevzuat sınırlarıyla (50, 10, 30) KIYASLA ve net bir cevap ver.
 
-    1. DEVAMSIZLIK (İLK KONTROL):
-       - Özürsüz <= 10 VE Toplam <= 30 ise: "Devamsızlık sınırını aşmadın."
-       - Özürsüz > 10 VEYA Toplam > 30 ise: "Devamsızlık sınırını aştığın için sınıf tekrarına kalırsın." (Bu durum varsa diğerlerine bakma).
-
+    1. SINIF GEÇME ANALİZİ (ÖNCELİKLİ):
+       - Eğer ortalama >= 50.00 ise: "Ortalaman 50 barajının üzerinde olduğu için (zayıf sayın 3 veya daha azsa) sınıfı geçersin."
+       - Eğer ortalama < 50.00 ise: "Ortalaman 50 barajının altında olduğu için sınıf tekrarına kalırsın."
+    
     2. ZAYIF SAYISI KONTROLÜ:
-       - Zayıf Sayısı >= 4 ise: "4 veya daha fazla zayıfın olduğu için ortalaman kaç olursa olsun sınıf tekrarına kalırsın."
+       - Eğer zayıf sayısı >= 4 ise: "4 veya daha fazla zayıfın olduğu için ortalaman kaç olursa olsun sınıf tekrarına kalırsın."
+       - Eğer zayıf sayısı 2 veya 3 ise: "Ortalaman 50 ve üzerindeyse bu derslerden sorumlu olarak sınıfı geçersin."
 
-    3. PUAN VE GEÇME ANALİZİ:
-       - Ortalama < 50.00 ise: "Ortalaman 50 barajının altında olduğu için sınıf tekrarına kalırsın."
-       - Ortalama >= 50.00 ise:
-            * Zayıf yoksa: "Doğrudan sınıfı geçersin."
-            * 1, 2 veya 3 zayıf varsa: "Ortalaman 50 üzerinde olduğu için bu zayıflardan sorumlu olarak sınıfı geçersin."
+    3. DEVAMSIZLIK ANALİZİ:
+       - Özürsüz <= 10 ve Toplam <= 30 ise: "Devamsızlık sınırını aşmadığın için kalmazsın."
+       - Özürsüz > 10 veya Toplam > 30 ise: "Devamsızlık sınırını aştığın için sınıf tekrarına kalırsın."
 
-    4. ÖDÜL VE BELGE:
-       - Teşekkür: 70.00 - 84.99 arası ortalama.
-       - Takdir: 85.00 ve üzeri ortalama.
-       - Not: Devamsızlık artık belge almaya engel DEĞİLDİR.
+    4. BELGELER:
+       - Teşekkür: 70.00-84.99 | Takdir: 85.00 ve üzeri.
+       - ÖNEMLİ: Devamsızlık artık belge almaya engel değildir.
 
-    YASAKLAR VE KOMUTLAR:
-    - "Maalesef", "Kontrol edelim", "Giriş yapalım" gibi gereksiz cümleler kurma.
-    - MATEMATİKSEL KIYASLAMA YAP: 60 sayısı 50'den büyüktür (GEÇER). 9 sayısı 10'dan küçüktür (GEÇER).
-    - Eksik bilgi (ortalama veya zayıf sayısı gibi) varsa nazikçe sor.
-    - Sadece tek cümlelik net sonuç ver."""
+    YASAKLAR: 
+    - "Maalesef", "Kontrol edelim", "Giriş yapalım" gibi ifadeler kullanma.
+    - 60 gibi 50'den büyük bir sayıya asla "barajın altında" deme.
+    - Sadece sorulan soruya odaklan ve tek cümleyle hükmü ver."""
     
     chat = client.chat.completions.create(
         messages=[
