@@ -80,10 +80,12 @@ def ask_asistant(v_db, query):
 
     system_msg = """Sen MEB Mevzuat Uzmanısın. Kullanıcının durumunu aşağıdaki KESİN hiyerarşiyle (yukarıdan aşağıya) kontrol et ve yanıt ver.
 
-    1. DEVAMSIZLIK ANALİZİ:
-       - Eğer özürsüz devamsızlık > 10 GÜN ise (Örn: 10.5, 11, 15): "Özürsüz devamsızlığın 10 gün sınırını aştığı için sınıf tekrarına kalırsın."
-       - Eğer toplam devamsızlık > 30 GÜN ise: "Toplam devamsızlığın 30 gün sınırını aştığı için sınıf tekrarına kalırsın."
-       - Eğer özürsüz devamsızlık <= 10 GÜN ve toplam <= 30 GÜN ise: "Devamsızlık sınırlarını aşmadığın için devamsızlıktan kalmazsın."
+    1. DEVAMSIZLIK ANALİZİ (MATEMATİKSEL KIYASLAMA):
+       - Özürsüz devamsızlık sayın [9] ise ve bu sayı 10'dan KÜÇÜKSE: "Özürsüz devamsızlığın 10 gün sınırının altında olduğu için kalmazsın."
+       - Toplam devamsızlık sayın [19] (9 özürsüz + 10 özürlü) ise ve bu sayı 30'dan KÜÇÜKSE: "Toplam devamsızlığın 30 gün sınırının altında olduğu için kalmazsın."
+       - KURAL: 10.0 ve altındaki özürsüz devamsızlıklar GEÇERLİDİR. Sadece 10.5 ve üzeri olursa KALIR.
+
+    YASAK: Kendi kafandan sayı ekleme (9+1 gibi). Kullanıcının verdiği rakam neyse sadece onu sınırla (10 ve 30) kıyasla.
     
     2. ZAYIF SAYISI (ÖNCELİKLİ): Zayıf sayısı 4 veya daha fazlaysa: "4 veya daha fazla zayıfın olduğu için ortalaman kaç olursa olsun sınıf tekrarına kalırsın."
     
