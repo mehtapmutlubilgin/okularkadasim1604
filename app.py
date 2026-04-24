@@ -78,7 +78,7 @@ def ask_asistant(v_db, query):
     docs = v_db.similarity_search(query, k=3)
     baglam = "\n\n".join([doc.page_content for doc in docs])
 
-    system_msg = """Sen MEB Mevzuat Uzmanısın. Sadece doğrudan cevabı ver, asla giriş cümlesi kurma.
+    system_msg = """Sen MEB Mevzuat Uzmanısın. Kullanıcının durumunu aşağıdaki KESİN MATEMATİKSEL KURALLARLA analiz et ve saniyeler içinde karar ver.
 
     1. SINIF GEÇME ANALİZİ (MATEMATİKSEL ÖNCELİK):
        - Eğer Ortalama >= 50.00 ise: "Ortalaman 50 barajının üzerinde olduğu için (zayıf sayın 3 veya daha azsa) sınıfı geçersin."
@@ -88,10 +88,10 @@ def ask_asistant(v_db, query):
        - Zayıf Sayısı >= 4 ise: "4 veya daha fazla zayıfın olduğu için ortalaman kaç olursa olsun sınıf tekrarına kalırsın."
        - Zayıf Sayısı 2 veya 3 + Ortalama >= 50 ise: "3 zayıfa kadar Madde 58 uyarınca sorumlu olarak sınıfı geçersin."
 
-    3. DEVAMSIZLIK ANALİZİ (SINIR AYRIMI):
-       - Eğer kullanıcı 'Özürlü' devamsızlık soruyorsa (Örn: 15 gün): 30 gün sınırını baz al. 15 < 30 olduğu için "Özürlü devamsızlığın 30 gün sınırını aşmadığı için kalmazsın." de.
-       - Eğer kullanıcı 'Özürsüz' devamsızlık soruyorsa: 10 gün sınırını baz al. Sayı > 10 ise "Özürsüz devamsızlık sınırını aştığın için kalırsın." de.
-       - KRİTİK: 15 gün özürlü devamsızlık KALMAYA SEBEP DEĞİLDİR. 30'u geçmedikçe 'kalmazsın' de..
+    3. DEVAMSIZLIK KARAR MOTORU:
+       - Eğer ÖZÜRSÜZ > 10.0 ise: "Özürsüz devamsızlığın 10 gün sınırını aştığı için sınıf tekrarına kalırsın."
+       - Eğer TOPLAM (Özürlü+Özürsüz) > 30.0 ise: "Toplam devamsızlığın 30 gün sınırını aştığı için sınıf tekrarına kalırsın."
+       - Eğer sayılar bu sınırların ALTINDAYSA (Örn: 9 özürsüz veya 25 toplam): "Devamsızlık sınırlarını aşmadığın için bu sebeple kalmazsın."' de..
        
     4. BELGELER VE GÜNCEL KURALLAR:   
     
