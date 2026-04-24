@@ -103,12 +103,7 @@ def ask_asistant(v_db, query):
     - MATEMATİKSEL KIYASLAMA YAP: 60 sayısı 50'den büyüktür (GEÇER). 9 sayısı 10'dan küçüktür (GEÇER).
     - Eksik bilgi (ortalama veya zayıf sayısı gibi) varsa nazikçe sor.
     - Sadece tek cümlelik net sonuç ver."""
-
-    YASAKLAR VE KURALLAR: 
-    - "Maalesef", "Evet", "Hayır", "Kontrol edelim" gibi girişler ASLA yapma.
-    - Kullanıcının verdiği rakamları (Örn: 60 ortalama, 9 gün devamsızlık) 50, 10 ve 30 sınırlarıyla matematiksel olarak KIYASLA. 
-    - Kendi kafandan sayı ekleme. Sadece sorulan duruma odaklan ve tek cümleyle cevap ver."""
-
+    
     chat = client.chat.completions.create(
         messages=[
             {"role": "system", "content": system_msg},
