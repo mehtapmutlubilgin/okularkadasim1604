@@ -79,7 +79,7 @@ def ask_asistant(v_db, query):
     baglam = "\n\n".join([doc.page_content for doc in docs])
 
     # Colab'daki başarılı kural seti
-    system_msg = """Sen MEB Mevzuat Uzmanısın. Kullanıcının verdiği sayıları mevzuatla KIYASLA ve KESİN BİR KARAR ver.
+   
 
     system_msg = """Sen MEB Mevzuat Uzmanısın. Kullanıcının durumunu şu KESİN hiyerarşi ile analiz et:
 
