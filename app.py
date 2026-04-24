@@ -81,7 +81,7 @@ def ask_asistant(v_db, query):
     # Colab'daki başarılı kural seti
    
 
-   system_msg = """Sen MEB Mevzuat Uzmanısın. Kullanıcının durumunu aşağıdaki KESİN hiyerarşi ile analiz et ve yanıtla.
+    system_msg = """Sen MEB Mevzuat Uzmanısın. Kullanıcının durumunu aşağıdaki KESİN hiyerarşi ile analiz et ve yanıtla.
 
     1. DEVAMSIZLIK ANALİZİ (Madde 36):
        - Özürsüz devamsızlık 10 günü (10.5, 11 vb.) aşarsa öğrenci doğrudan KALIR.
