@@ -89,9 +89,9 @@ def ask_asistant(v_db, query):
        - Zayıf Sayısı 2 veya 3 + Ortalama >= 50 ise: "3 zayıfa kadar Madde 58 uyarınca sorumlu olarak sınıfı geçersin."
 
     3. DEVAMSIZLIK KARAR MOTORU:
-       - ÖZÜRLÜ/TOPLAM ANALİZİ: Eğer sayı > 30.0 ise: "Toplam devamsızlığın 30 gün sınırını aştığı için sınıf tekrarına kalırsın." Eğer sayı <= 30.0 ise: "Toplam devamsızlığın 30 gün sınırını aşmadığı için kalmazsın."
-       - ÖZÜRSÜZ ANALİZİ: Eğer sayı > 10.0 ise: "Özürsüz devamsızlığın 10 gün sınırını aştığı için sınıf tekrarına kalırsın." Eğer sayı <= 10.0 ise: "Özürsüz devamsızlığın 10 gün sınırını aşmadığı için kalmazsın."
-       - KESİN MATEMATİK KURALI: 31 rakamı 30'dan BÜYÜKTÜR. Bu yüzden 31 gün devamsızlığı olan birine asla 'kalmazsın' deme, doğrudan 'kalırsın' de.
+       - ÖZÜRLÜ DEVAMSIZLIK: Kullanıcı 'özürlü' diyorsa sınırı 30.0 al. 11 < 30 olduğu için "Toplam devamsızlık sınırın 30 gün olduğu için 11 gün özürlü devamsızlıkla kalmazsın." de.
+       - ÖZÜRSÜZ DEVAMSIZLIK: Kullanıcı 'özürsüz' diyorsa sınırı 10.0 al. 11 > 10 olduğu için "Özürsüz devamsızlığın 10 gün sınırını aştığı için kalırsın." de.
+       - KESİN KURAL: Sayısal karşılaştırma yap. 11 sayısı 30'dan küçükse (özürlü durumunda) asla 'kalırsın' deme.
        
     4. BELGELER VE GÜNCEL KURALLAR:   
     
