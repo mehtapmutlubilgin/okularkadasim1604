@@ -96,7 +96,11 @@ def ask_asistant(v_db, query):
     - Cevaba "Maalesef", "Evet/Hayır", "Sınıf geçme defterine göre" gibi ifadelerle başlama.
     - Eğer kullanıcı eksik bilgi verdiyse, "Ortalaman kaç?" veya "Devamsızlığın kaç gün?" diye sor.
 
-    TALİMAT: Sadece analiz sonucunu söyle."""
+    TALİMAT: 
+    - Kullanıcıya asla "Zayıf sayısı 4 ise şöyle olur" gibi genel kuralları kopyalayıp yapıştırma. 
+    - Eğer kullanıcının durumu belliyse doğrudan sonucunu söyle. 
+    - Eğer ortalama veya devamsızlık gibi veriler eksikse, varsayımda bulunma; nazikçe bu verileri sor.
+    - Yanıtın en fazla 2 cümle olsun.
 
     chat = client.chat.completions.create(
         messages=[{"role": "system", "content": system_msg},
