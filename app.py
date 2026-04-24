@@ -76,6 +76,7 @@ def load_existing_vector_db():
 def ask_asistant(v_db, query):
     client = Groq(api_key=st.secrets["GROQ_API_KEY"])
     docs = v_db.similarity_search(query, k=5)
+    # Vektörden gelen karmaşık metni asistanın içinde gizli tutuyoruz, ekrana basmıyoruz
     baglam = "\n\n".join([doc.page_content for doc in docs])
 
     system_msg = """Sen MEB Mevzuat Uzmanısın. Kullanıcının durumunu aşağıdaki KESİN hiyerarşi ile analiz et ve yanıtla.
@@ -93,14 +94,19 @@ def ask_asistant(v_db, query):
        - Devamsızlık artık Takdir/Teşekkür belgesi almaya engel DEĞİLDİR.
 
     FORMAT VE YASAKLAR:
-    - Cevaba "Maalesef", "Evet/Hayır", "Sınıf geçme defterine göre" gibi ifadelerle başlama.
+    - SADECE SORUNUN CEVABINI VER. Bağlamdaki diğer maddeleri (sınav kağıdı, başkanlık vb.) asla anlatma.
     - Eğer kullanıcı eksik bilgi verdiyse, "Ortalaman kaç?" veya "Devamsızlığın kaç gün?" diye sor.
+    - Cevaba "Maalesef", "Evet/Hayır", "Sınıf geçme defterine göre" gibi ifadelerle başlama."""
 
-    TALİMAT: 
-    - Kullanıcıya asla "Zayıf sayısı 4 ise şöyle olur" gibi genel kuralları kopyalayıp yapıştırma. 
-    - Eğer kullanıcının durumu belliyse doğrudan sonucunu söyle. 
-    - Eğer ortalama veya devamsızlık gibi veriler eksikse, varsayımda bulunma; nazikçe bu verileri sor.
-    - Yanıtın en fazla 2 cümle olsun.
+    chat = client.chat.completions.create(
+        messages=[
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": f"Bağlam verileri: {baglam}\n\nKullanıcı Sorusu: {query}"}
+        ],
+        model="llama-3.1-8b-instant",
+        temperature=0
+    )
+    return chat.choices[0].message.content
 
     chat = client.chat.completions.create(
         messages=[{"role": "system", "content": system_msg},
