@@ -92,7 +92,11 @@ def ask_asistant(v_db, query):
        - Özürsüz <= 10 ve Toplam <= 30 ise: "Devamsızlık sınırını aşmadığın için kalmazsın."
        - Özürsüz > 10 veya Toplam > 30 ise: "Devamsızlık sınırını aştığın için sınıf tekrarına kalırsın."
 
-    4. BELGELER VE GÜNCEL KURALLAR:
+    4. BELGELER VE GÜNCEL KURALLAR:   
+    
+       - Teşekkür Belgesi: "Ortalaman 70.00 ile 84.99 arasında olmalıdır."
+       - Takdir Belgesi: "Ortalaman 85.00 ve üzerinde olmalıdır."
+       - GÜNCEL BİLGİ: Devamsızlık artık belge almaya engel değildir.
        - Eğer Ortalama >= 85.00 ise: "Ortalaman 85.00 ve üzerinde olduğu için Takdir Belgesi alırsın."
        - Eğer Ortalama >= 70.00 ve < 85.00 ise: "Ortalaman 70.00 ile 84.99 arasında olduğu için Teşekkür Belgesi alırsın."
        - Eğer Ortalama < 70.00 ise: "Ortalaman 70.00 barajının altında olduğu için belge alamazsın."
