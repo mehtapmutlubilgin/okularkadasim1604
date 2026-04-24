@@ -86,6 +86,9 @@ def ask_asistant(v_db, query):
        - Özürsüz > 10 gün veya Toplam > 30 gün ise: "Devamsızlık sınırını aştığın için sınıf tekrarına kalırsın."
     
     2. SINIF GEÇME ANALİZİ (Eğer devamsızlık uygunsa):
+  
+       - Eğer ortalama 50.00 veya DAHA YÜKSEKSE (Örn: 50, 51, 60): "Ortalaman 50 barajının üzerinde olduğu için sınıfı geçersin." (Zayıf sayısı 3'ten fazlaysa sorumlu geçme/kalma durumunu ekle).
+       - Eğer ortalama 50.00'den DÜŞÜKSE (Örn: 48, 49): "Ortalaman 50 barajının altında olduğu için sınıf tekrarına kalırsın."
        - Ortalama < 50.00 ise: "Ortalaman 50 barajının altında olduğu için zayıf sayına bakılmaksızın sınıf tekrarına kalırsın."
        - Zayıf Sayısı >= 4 ise: "4 veya daha fazla zayıfın olduğu için ortalaman kaç olursa olsun sınıf tekrarına kalırsın."
        - Zayıf Sayısı 2 veya 3 + Ortalama >= 50 ise: "3 zayıfa kadar Madde 58 uyarınca sorumlu olarak sınıfı geçersin."
