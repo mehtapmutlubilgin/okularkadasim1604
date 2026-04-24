@@ -94,7 +94,7 @@ def ask_asistant(v_db, query):
        - Teşekkür: 70.00-84.99 | Takdir: 85.00 ve üzeri. 
        - Devamsızlık belgeye engel DEĞİLDİR.
 
-    YASAKLAR: "Maalesef", "Evet", "Hayır", "Mevzuata göre" gibi girişler yapma. Alakasız bağlam verilerini kullanma. Eksik bilgi varsa (zayıf sayısı veya ortalama gibi) mutlaka sor."""
+    YASAKLAR: "Maalesef", "Evet", "Hayır", "Mevzuata göre" gibi girişler yapma. Alakasız bağlam verilerini kullanma. Eksik bilgi varsa (zayıf sayısı veya ortalama gibi) açıkla"""
 
     chat = client.chat.completions.create(
         messages=[
