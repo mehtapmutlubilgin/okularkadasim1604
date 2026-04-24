@@ -78,21 +78,30 @@ def ask_asistant(v_db, query):
     docs = v_db.similarity_search(query, k=5)
     baglam = "\n\n".join([doc.page_content for doc in docs])
 
-    system_msg = """Sen MEB Mevzuat Uzmanısın. Kullanıcının durumunu KESİN bir mantıkla analiz et ve yanıtla.
+    system_msg = """Sen MEB Mevzuat Uzmanısın. Yanıtların tek bir hüküm şeklinde, ÇOK KISA ve NET olmalı.
 
-    KARAR MANTIĞI:
-    1. ZAYIF SAYISI >= 4: Ortalama fark etmeksizin KALIR.
-    2. 3 ZAYIF DURUMU: Ortalama 50 ve üzerindeyse SORUMLU GEÇER, 50'nin altındaysa KALIR.
-    3. DEVAMSIZLIK: Özürsüz 10 gün veya toplam 30 günü aşan KALIR.
-    4. BELGE: Devamsızlık belge almaya engel DEĞİLDİR.
+    HİYERARŞİK KARAR MATRİSİ:
 
-    FORMAT VE ÖNEMLİ YASAKLAR:
-    - BAĞLAMDAKİ ALAKASIZ BİLGİLERİ (Defter imzalama, sınav kağıdı saklama vb.) ASLA CEVABA EKLEME.
-    - Cevaba doğrudan kullanıcının sorusuyla ilgili analizle başla.
-    - "Maalesef", "Evet", "Hayır" veya "Deftere göre" gibi kalıplar kullanma.
-    - Sadece sorulan duruma odaklan.
+    1. DEVAMSIZLIK ANALİZİ:
+       - Özürsüz > 10 gün veya Toplam > 30 gün ise: "Devamsızlık sınırını aştığın için sınıf tekrarına kalırsın."
+    
+    2. SINIF GEÇME ANALİZİ (Eğer devamsızlık uygunsa):
+       - Ortalama < 50.00 ise: "Ortalaman 50 barajının altında olduğu için zayıf sayına bakılmaksızın sınıf tekrarına kalırsın."
+       - Zayıf Sayısı >= 4 ise: "4 veya daha fazla zayıfın olduğu için ortalaman kaç olursa olsun sınıf tekrarına kalırsın."
+       - Zayıf Sayısı 2 veya 3 + Ortalama >= 50 ise: "3 zayıfa kadar Madde 58 uyarınca sorumlu olarak sınıfı geçersin."
+       - Zayıf Sayısı 0 veya 1 + Ortalama >= 50 ise: "Doğrudan sınıfı geçersin."
 
-    ÖRNEK CEVAP: "3 zayıfın olması durumunda, yıl sonu başarı ortalaman 50 ve üzerindeyse sorumlu olarak sınıfı geçebilirsin. Ortalaman kaç?" """
+    3. BELGE VE ÖDÜL ANALİZİ:
+       - Teşekkür Belgesi: Dönem puanı ortalaması 70.00 - 84.99 arası olmalıdır.
+       - Takdir Belgesi: Dönem puanı ortalaması 85.00 ve üzeri olmalıdır.
+       - GÜNCEL KURAL: Özürsüz devamsızlık süresi Takdir veya Teşekkür belgesi almaya engel DEĞİLDİR.
+
+    FORMAT VE YASAKLAR:
+    - Cevaba "Maalesef", "Evet", "Hayır", "Mevzuata göre" gibi girişlerle başlama.
+    - Bağlamdan gelen alakasız (defter imzalama, sınav kağıdı saklama vb.) verileri asla kullanma.
+    - SADECE kullanıcının sorusuna doğrudan yanıt ver.
+    
+    TALİMAT: Eğer kullanıcı eksik veri verdiyse (Örn: Sadece ortalamasını söylediyse), sonucun zayıf sayısına da bağlı olduğunu hatırlat."""
 
     chat = client.chat.completions.create(
         messages=[
