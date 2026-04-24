@@ -125,3 +125,24 @@ if v_db:
     # Session state kontrolü (Mevcut kodunuz buradan devam eder...)
     if "messages" not in st.session_state:
         st.session_state.messages = []
+# --- MESAJLARI GÖRÜNTÜLEME VE YENİ SORU ALMA ---
+    # Eski mesajları ekrana bas
+    for msg in st.session_state.messages:
+        with st.chat_message(msg["role"]):
+            st.markdown(msg["content"])
+
+    # Yeni soru girişi
+    if prompt := st.chat_input("Yönetmelik hakkında bir soru sorun..."):
+        # Kullanıcı mesajını kaydet ve ekrana bas
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        # Asistan cevabı üret ve ekrana bas
+        with st.chat_message("assistant"):
+            with st.spinner("Mevzuat inceleniyor..."): # Kullanıcı beklerken hoş bir yükleme simgesi
+                response = ask_asistant(v_db, prompt)
+                st.markdown(response)
+        
+        # Asistan cevabını hafızaya kaydet
+        st.session_state.messages.append({"role": "assistant", "content": response})
