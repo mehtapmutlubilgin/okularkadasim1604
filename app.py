@@ -96,7 +96,6 @@ def ask_asistant(v_db, query):
        - Eğer Ortalama >= 85.00 ise: "Ortalaman 85.00 ve üzerinde olduğu için Takdir Belgesi alırsın."
        - Eğer Ortalama >= 70.00 ve < 85.00 ise: "Ortalaman 70.00 ile 84.99 arasında olduğu için Teşekkür Belgesi alırsın."
        - Eğer Ortalama < 70.00 ise: "Ortalaman 70.00 barajının altında olduğu için belge alamazsın."
-       - Teşekkür: 70.00 - 84.99 | Takdir: 85.00 ve üzeri.
        - ÖNEMLİ: Devamsızlık artık belge (Takdir/Teşekkür) almaya engel DEĞİLDİR.
        - BAĞLAM YASAĞI: Sınıf geçme defteri, sınav kağıdı saklama gibi alakasız verileri asla cevaba ekleme.
 
