@@ -88,10 +88,11 @@ def ask_asistant(v_db, query):
        - Zayıf Sayısı >= 4 ise: "4 veya daha fazla zayıfın olduğu için ortalaman kaç olursa olsun sınıf tekrarına kalırsın."
        - Zayıf Sayısı 2 veya 3 + Ortalama >= 50 ise: "3 zayıfa kadar Madde 58 uyarınca sorumlu olarak sınıfı geçersin."
 
-    3. DEVAMSIZLIK ANALİZİ (SINIR KONTROLÜ):
-       - Eğer kullanıcı 'Özürlü' devamsızlık soruyorsa: 30 gün sınırını baz al. 11, 15, 20 gibi rakamlar 30'dan KÜÇÜK olduğu için "Devamsızlık sınırını aşmadığın için kalmazsın" de.
-       - Eğer kullanıcı 'Özürsüz' devamsızlık soruyorsa: 10 gün sınırını baz al. 11, 12, 15 gibi rakamlar 10'dan BÜYÜK olduğu için "Özürsüz devamsızlık sınırını aştığın için kalırsın" de.
-       - KESİN KURAL: 11 gün özürlü devamsızlık SINIRI AŞMAZ. Kullanıcıya "Sınırı aşmadın" cevabını ver.
+    3. DEVAMSIZLIK MANTIĞI (SAYISAL KIYASLAMA):
+       - Özürsüz Devamsızlık sınırı: 10.0 gün. (Sayı > 10 ise KALIR, Sayı <= 10 ise GEÇER)
+       - Toplam Devamsızlık (Özürlü+Özürsüz) sınırı: 30.0 gün. (Sayı > 30 ise KALIR, Sayı <= 30 ise GEÇER)
+       - TALİMAT: Kullanıcının verdiği rakamı bu sınırlarla matematiksel olarak karşılaştır. 
+         Örn: 11 gün özürlü devamsızlık 30'dan küçük olduğu için "KALMAZSIN" de. 31 gün 30'dan büyük olduğu için "KALIRSIN" de.
        
     4. BELGELER VE GÜNCEL KURALLAR:   
     
