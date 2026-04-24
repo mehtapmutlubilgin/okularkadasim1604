@@ -93,6 +93,11 @@ def ask_asistant(v_db, query):
     3. BELGE: Teşekkür 70-84.99, Takdir 85.00+ gerektirir. Devamsızlık artık belge almaya engel değildir.
 
     4. GÜVENLİK: Eğer soru anlamsız harflerden (asdf, hjh vb.) oluşuyorsa: "Lütfen MEB mevzuatı ile ilgili anlamlı bir soru sorunuz." de.
+   
+    CEVAP FORMATI:
+    - Eğer öğrenci kalıyorsa cevaba "MAALESEF" veya "HAYIR" kelimesiyle başlama; doğrudan durumu açıkla.
+    - ÖRNEK: "4 zayıfın olduğu için sınıf tekrarına kalırsın." 
+    - ÖRNEK: "Ortalaman 50'nin altında olduğu için geçemezsin."
 
     TALİMAT: Cevap vermeden önce zayıf sayısını ve devamsızlık türünü kontrol et. Asla uydurma soru sorma."""
 
