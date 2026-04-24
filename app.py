@@ -113,24 +113,15 @@ def ask_asistant(v_db, query):
 
 # --- SOHBET AKIŞI ---
 v_db = load_existing_vector_db()
-
 if v_db:
-    # Session state kontrolü ve mesajların saklanması
+    # --- YAN MENÜYE SIFIRLA BUTONU EKLEME ---
+    with st.sidebar:
+        st.markdown("### ⚙️ Ayarlar")
+        if st.button("🔄 Sohbeti Sıfırla"):
+            st.session_state.messages = []
+            st.rerun()
+        st.info("Yeni bir öğrenci senaryosu denemeden önce sohbeti sıfırlamanız önerilir.")
+
+    # Session state kontrolü (Mevcut kodunuz buradan devam eder...)
     if "messages" not in st.session_state:
         st.session_state.messages = []
-
-    # Eski mesajları ekrana bas
-    for msg in st.session_state.messages:
-        with st.chat_message(msg["role"]):
-            st.markdown(msg["content"])
-
-    # Yeni soru girişi
-    if prompt := st.chat_input("Yönetmelik hakkında bir soru sorun..."):
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
-            st.markdown(prompt)
-
-        with st.chat_message("assistant"):
-            response = ask_asistant(v_db, prompt)
-            st.markdown(response)
-        st.session_state.messages.append({"role": "assistant", "content": response})
