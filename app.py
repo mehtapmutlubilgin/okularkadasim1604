@@ -78,9 +78,6 @@ def ask_asistant(v_db, query):
     docs = v_db.similarity_search(query, k=5)
     baglam = "\n\n".join([doc.page_content for doc in docs])
 
-    # Colab'daki başarılı kural seti
-   
-
     system_msg = """Sen MEB Mevzuat Uzmanısın. Kullanıcının durumunu aşağıdaki KESİN hiyerarşi ile analiz et ve yanıtla.
 
     1. DEVAMSIZLIK ANALİZİ (Madde 36):
@@ -93,16 +90,13 @@ def ask_asistant(v_db, query):
        - Zayıf sayısı 4 veya daha fazlaysa, ortalama kaç olursa olsun KALIR.
 
     3. BELGE DURUMU:
-       - Devamsızlık artık Takdir/Teşekkür belgesi almaya engel DEĞİLDİR. (Ortalama 70-84.99 Teşekkür, 85+ Takdir).
+       - Devamsızlık artık Takdir/Teşekkür belgesi almaya engel DEĞİLDİR.
 
     FORMAT VE YASAKLAR:
     - Cevaba "Maalesef", "Evet/Hayır", "Sınıf geçme defterine göre" gibi ifadelerle başlama.
-    - Eğer kullanıcı eksik bilgi verdiyse (Örn: Sadece zayıf sayısını söylediyse), "Ortalaman kaç?" veya "Devamsızlığın kaç gün?" diye mutlaka sor.
-    - Analiz yapmadan sadece kuralı kopyalayıp yazma.
+    - Eğer kullanıcı eksik bilgi verdiyse, "Ortalaman kaç?" veya "Devamsızlığın kaç gün?" diye sor.
 
-    ÖRNEK: "3 zayıfın olması durumunda geçebilmen için ortalaman 50 ve üzeri olmalı, ayrıca özürsüz devamsızlığın 10 günü geçmemelidir. Ortalaman ve devamsızlığın kaç gün?" """
-
-    
+    TALİMAT: Sadece analiz sonucunu söyle."""
 
     chat = client.chat.completions.create(
         messages=[{"role": "system", "content": system_msg},
