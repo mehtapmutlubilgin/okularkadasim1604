@@ -75,7 +75,7 @@ def load_existing_vector_db():
 # --- 2. CEVAP ÜRETME ---
 def ask_asistant(v_db, query):
     client = Groq(api_key=st.secrets["GROQ_API_KEY"])
-    docs = v_db.similarity_search(query, k=5)
+    docs = v_db.similarity_search(query, k=3)
     baglam = "\n\n".join([doc.page_content for doc in docs])
 
     system_msg = """Sen MEB Mevzuat Uzmanısın. Yanıtların tek bir hüküm şeklinde, ÇOK KISA ve NET olmalı.
