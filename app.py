@@ -78,7 +78,7 @@ def ask_asistant(v_db, query):
     docs = v_db.similarity_search(query, k=3)
     baglam = "\n\n".join([doc.page_content for doc in docs])
 
-   system_msg = """Sen MEB Mevzuat Uzmanısın. Sadece doğrudan cevabı ver, asla giriş cümlesi kurma.
+    system_msg = """Sen MEB Mevzuat Uzmanısın. Sadece doğrudan cevabı ver, asla giriş cümlesi kurma.
 
     1. DEVAMSIZLIK ANALİZİ:
        - Özürsüz <= 10 ve Toplam <= 30 ise: "Devamsızlık sınırını aşmadığın için devamsızlıktan kalmazsın."
