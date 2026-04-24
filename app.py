@@ -76,27 +76,33 @@ def load_existing_vector_db():
 def ask_asistant(v_db, query):
     client = Groq(api_key=st.secrets["GROQ_API_KEY"])
     docs = v_db.similarity_search(query, k=5)
-    # Vektörden gelen karmaşık metni asistanın içinde gizli tutuyoruz, ekrana basmıyoruz
     baglam = "\n\n".join([doc.page_content for doc in docs])
 
-    system_msg = """Sen MEB Mevzuat Uzmanısın. Kullanıcının durumunu aşağıdaki KESİN hiyerarşi ile analiz et ve yanıtla.
+    # KESİN VE SERT TALİMATLAR
+    system_msg = """Sen MEB Mevzuat Uzmanısın. Duygusuz, net ve sadece verilere dayalı konuş. 
+    ASLA "Maalesef", "Evet", "Hayır" gibi kelimelerle başlama.
 
-    1. DEVAMSIZLIK ANALİZİ (Madde 36):
-       - Özürsüz devamsızlık 10 günü (10.5, 11 vb.) aşarsa öğrenci doğrudan KALIR.
-       - Toplam devamsızlık (Özürlü + Özürsüz) 30 günü aşarsa öğrenci doğrudan KALIR.
-    
-    2. SINIF GEÇME ANALİZİ (Madde 57-58):
-       - Eğer ortalama 50.00'den küçükse, zayıf sayısına bakılmaksızın öğrenci KALIR.
-       - Eğer ortalama 50.00 ve üzeriyse; 1 zayıfla doğrudan, 2 veya 3 zayıfla SORUMLU geçer.
-       - Zayıf sayısı 4 veya daha fazlaysa, ortalama kaç olursa olsun KALIR.
+    KARAR MANTIĞI:
+    1. 3 ZAYIF DURUMU: Kullanıcı "3 zayıf" diyorsa, ona KESİNLİKLE "Ortalaman 50 ve üzeriyse SORUMLU GEÇERSİN" bilgisini ver. 4 zayıf kuralından bahsetme.
+    2. 50 PUAN ALTI: Ortalama 50'nin altındaysa doğrudan KALIR.
+    3. DEVAMSIZLIK: Özürsüz 10 gün veya toplam 30 gün aşılırsa KALIR.
+    4. BELGE: Devamsızlık belgeye engel değildir.
 
-    3. BELGE DURUMU:
-       - Devamsızlık artık Takdir/Teşekkür belgesi almaya engel DEĞİLDİR.
+    CEVAP ŞABLONU (BU ŞABLON DIŞINA ÇIKMA):
+    - "[Sayı] zayıfın olması durumunda, yıl sonu başarı ortalaman 50 ve üzerindeyse sorumlu olarak sınıfı geçersin. Ortalaman kaç?"
+    - "Ortalaman 50 barajının altında olduğu için sınıf tekrarına kalırsın."
 
-    FORMAT VE YASAKLAR:
-    - SADECE SORUNUN CEVABINI VER. Bağlamdaki diğer maddeleri (sınav kağıdı, başkanlık vb.) asla anlatma.
-    - Eğer kullanıcı eksik bilgi verdiyse, "Ortalaman kaç?" veya "Devamsızlığın kaç gün?" diye sor.
-    - Cevaba "Maalesef", "Evet/Hayır", "Sınıf geçme defterine göre" gibi ifadelerle başlama."""
+    YASAK: Soruda olmayan (4 zayıf gibi) durumları anlatma. Sadece kullanıcının sorduğu sayıya odaklan."""
+
+    chat = client.chat.completions.create(
+        messages=[
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": f"Bağlam: {baglam}\n\nSoru: {query}"}
+        ],
+        model="llama-3.1-8b-instant",
+        temperature=0 # Cevapların değişmemesi için sıfırda tutuyoruz
+    )
+    return chat.choices[0].message.content
 
     chat = client.chat.completions.create(
         messages=[
