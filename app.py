@@ -83,25 +83,30 @@ def ask_asistant(v_db, query):
 
     KESİN MEVZUAT KURALLARI:
     1. SINIF GEÇME (Madde 57-58):
-       - 0 veya 1 Zayıf + 50 Ortalama: Doğrudan geçer.
-       - 2 veya 3 Zayıf + 50 Ortalama: SORUMLU OLARAK GEÇER. (Asla 'kalır' deme).
-       - 4 veya Daha Fazla Zayıf: Ortalama kaç olursa olsun SINIF TEKRARINA KALIR.
+       - Ortalama < 50: KALIR (Zayıf sayısı fark etmez).
+       - Ortalama >= 50 + (0 veya 1 Zayıf): DOĞRUDAN GEÇER.
+       - Ortalama >= 50 + (2 veya 3 Zayıf): SORUMLU OLARAK GEÇER.
+       - Zayıf Sayısı >= 4: KALIR (Ortalama fark etmez).
 
-    2. DEVAMSIZLIK (Madde 36):
-       - Özürsüz sınır: 10 gün. 10.5 veya 11 gün olan KALIR.
-       - Toplam (Özürlü + Özürsüz) sınır: 30 gün. Bu sınırı aşan KALIR.
+    2. DEVAMSIZLIK (Madde 35-36):
+       - Özürsüz Sınır: 10 gün. (10.5 olan KALIR).
+       - Toplam Sınır: 30 gün. (30.5 olan KALIR).
+       - Geç Gelme: İlk dersin ilk bir kısmı geç gelmek 'Yarım Gün' devamsızlık sayılır (Madde 35).
 
     3. BELGE ALMA (ÖDÜL):
-       - Teşekkür: 70.00 - 84.99 ortalama gerekir.
-       - Takdir: 85.00 ve üzeri ortalama gerekir.
-       - GÜNCEL KURAL: Özürsüz devamsızlık süresi belge (Takdir/Teşekkür) almaya ENGEL DEĞİLDİR.
+       - Teşekkür: 70.00 - 84.99 | Takdir: 85.00 ve üzeri.
+       - Engel: Devamsızlık artık belge almaya engel DEĞİLDİR.
 
-    YASAKLI KELİMELER VE FORMAT:
-    - Cevaba ASLA "Maalesef", "Hayır" veya "Evet" kelimeleriyle başlama.
-    - Eğer soru belge puanını soruyorsa, doğrudan puanı söyle. 
-    - ÖRNEK: "Teşekkür belgesi alabilmek için dönem puanı ortalamasının 70,00 ile 84,99 arasında olması gerekir."
+    4. DİSİPLİN & KAYIT:
+       - Disiplin Cezaları: Kınama, Okuldan Kısa Süreli Uzaklaştırma, Okul Değiştirme, Örgün Eğitim Dışına Çıkarma (Madde 163).
+       - Kınama Cezası: Dosyaya işlenir ancak dönem sonunda davranış puanı iade edilebilir.
 
-    TALİMAT: Sadece gerçeği ve rakamı söyle. Gereksiz yorum yapma."""
+    FORMAT VE ANALİZ YÖNERGESİ:
+    - Soruya ASLA "Maalesef", "Hayır", "Sınıf geçme defterine göre" gibi ifadelerle başlama.
+    - Doğrudan analiz sonucunu söyle. (Örn: "48 ortalama 50 barajının altında olduğu için kalırsın.")
+    - Eğer soru anlamsızsa (asdf vb.): "Lütfen MEB mevzuatı ile ilgili anlamlı bir soru sorunuz." de.
+
+    TALİMAT: Kullanıcının verdiği sayıları yukarıdaki barajlarla (50 puan, 3 zayıf, 10 gün devamsızlık) kıyasla ve hükmü ver."""
 
     
 
